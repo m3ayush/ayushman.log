@@ -19,7 +19,7 @@ html[data-theme="dark"] {
   --foreground: #eaedf3;
   --accent: #ff7a1a;
   --muted: #2a3350;
-  --border: #384766;
+  --border: #ab4b08; /* warm orange rule lines, like steipete.me in dark mode */
   --card: #262d40;
 }
 

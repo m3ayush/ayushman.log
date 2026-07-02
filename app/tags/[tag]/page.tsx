@@ -25,7 +25,7 @@ export default async function TagPage({ params }: Params) {
         {posts.length} {posts.length === 1 ? "entry" : "entries"}
       </p>
 
-      <ul className="mt-4 divide-y divide-border">
+      <ul className="mt-4">
         {posts.map((post) => (
           <li key={post.id}>
             <PostCard post={post} />

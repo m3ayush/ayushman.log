@@ -1,9 +1,10 @@
 import Image from "next/image";
+import Link from "next/link";
 import { PostCard } from "@/components/PostCard";
+import { Socials } from "@/components/Socials";
 import { getPublishedPosts } from "@/lib/posts";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
-import { SITE, SOCIAL_LINKS } from "@/lib/site";
-import Link from "next/link";
+import { SITE } from "@/lib/site";
 
 export default async function HomePage() {
   const posts = await getPublishedPosts();
@@ -11,24 +12,22 @@ export default async function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <section className="flex items-center gap-5 pb-8">
-        <Image
-          src={SITE.avatar}
-          alt={SITE.author}
-          width={80}
-          height={80}
-          priority
-          className="h-20 w-20 shrink-0 rounded-full object-cover ring-1 ring-border"
-        />
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">{SITE.title}</h1>
-          <p className="mt-1 text-foreground/70">{SITE.description}</p>
-          <div className="mt-2 flex gap-3 text-sm">
-            {SOCIAL_LINKS.map((l) => (
-              <Link key={l.href} href={l.href} className="text-accent hover:underline">
-                {l.label}
-              </Link>
-            ))}
+      <section className="flex flex-col items-start gap-5 pb-6 sm:flex-row">
+        <Link href="/about" className="group mx-auto block shrink-0 sm:mx-0">
+          <Image
+            src={SITE.avatar}
+            alt={SITE.author}
+            width={160}
+            height={160}
+            priority
+            className="h-36 w-36 rounded-full object-cover transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl sm:h-40 sm:w-40"
+          />
+        </Link>
+        <div className="flex-1 text-center sm:text-left">
+          <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">{SITE.title}</h1>
+          <p className="mt-2 text-lg text-foreground/70">{SITE.description}</p>
+          <div className="mt-3 flex justify-center sm:justify-start">
+            <Socials className="-ml-2" />
           </div>
         </div>
       </section>
@@ -58,7 +57,7 @@ export default async function HomePage() {
             No entries yet. {isSupabaseConfigured ? "Sign in and write your first one." : ""}
           </p>
         ) : (
-          <ul className="divide-y divide-border">
+          <ul>
             {posts.map((post) => (
               <li key={post.id}>
                 <PostCard post={post} />

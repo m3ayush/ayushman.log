@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { SITE, SOCIAL_LINKS } from "@/lib/site";
-import Link from "next/link";
+import { SITE } from "@/lib/site";
+import { Socials } from "@/components/Socials";
 
 export const metadata: Metadata = { title: "About" };
 
@@ -31,12 +31,8 @@ export default function AboutPage() {
         </div>
       </div>
 
-      <div className="mt-8 flex gap-4 text-sm">
-        {SOCIAL_LINKS.map((l) => (
-          <Link key={l.href} href={l.href} className="text-accent hover:underline">
-            {l.label}
-          </Link>
-        ))}
+      <div className="mt-8">
+        <Socials className="-ml-2" />
       </div>
     </div>
   );

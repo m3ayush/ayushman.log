@@ -21,7 +21,28 @@ export const NAV_LINKS: { href: string; label: string }[] = [
   { href: "/about", label: "About" },
 ];
 
-export const SOCIAL_LINKS: { href: string; label: string }[] = [
-  { href: "https://github.com/m3ayush", label: "GitHub" },
-  { href: "/rss.xml", label: "RSS" },
+export type SocialIcon =
+  | "globe"
+  | "github"
+  | "linkedin"
+  | "instagram"
+  | "pinterest"
+  | "mail"
+  | "rss";
+
+export const SOCIAL_LINKS: { href: string; label: string; icon: SocialIcon }[] = [
+  { href: "https://ayushmanbhatnagar.vercel.app/", label: "Portfolio", icon: "globe" },
+  { href: "https://github.com/m3ayush", label: "GitHub", icon: "github" },
+  {
+    href: "https://www.linkedin.com/in/ayushman-bhatnagar",
+    label: "LinkedIn",
+    icon: "linkedin",
+  },
+  {
+    href: "https://www.instagram.com/_ayushmanbhatnagar_",
+    label: "Instagram",
+    icon: "instagram",
+  },
+  { href: "https://pin.it/2QdYSPpzs", label: "Pinterest", icon: "pinterest" },
+  { href: "mailto:ayushman.bhatnagar@outlook.com", label: "Email", icon: "mail" },
 ];
