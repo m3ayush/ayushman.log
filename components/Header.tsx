@@ -12,14 +12,7 @@ export function Header({ isAdmin = false }: { isAdmin?: boolean }) {
           href="/"
           className="flex items-center gap-2.5 text-lg font-bold tracking-tight hover:text-accent"
         >
-          <Image
-            src="/logo.png"
-            alt={`${SITE.author} logo`}
-            width={41}
-            height={24}
-            priority
-            className="h-6 w-auto dark:invert"
-          />
+          
           <span>{SITE.title}</span>
         </Link>
 
