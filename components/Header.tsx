@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { NAV_LINKS, SITE } from "@/lib/site";
 import { ThemeToggle } from "./ThemeToggle";
@@ -7,8 +8,19 @@ export function Header({ isAdmin = false }: { isAdmin?: boolean }) {
   return (
     <header className="mx-auto w-full max-w-3xl px-4">
       <div className="flex items-center justify-between gap-4 py-6">
-        <Link href="/" className="text-lg font-bold tracking-tight hover:text-accent">
-          {SITE.title}
+        <Link
+          href="/"
+          className="flex items-center gap-2.5 text-lg font-bold tracking-tight hover:text-accent"
+        >
+          <Image
+            src="/logo.png"
+            alt={`${SITE.author} logo`}
+            width={41}
+            height={24}
+            priority
+            className="h-6 w-auto dark:invert"
+          />
+          <span>{SITE.title}</span>
         </Link>
 
         <nav className="flex items-center gap-1 text-sm">
