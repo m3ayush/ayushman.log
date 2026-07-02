@@ -7,7 +7,7 @@ export function PostCard({ post }: { post: Post }) {
   return (
     <article className="py-6">
       <h2 className="text-xl font-bold">
-        <Link href={`/posts/${post.slug}`} className="hover:text-accent hover:underline">
+        <Link href={`/posts/${post.slug}`} className="text-accent hover:underline">
           {post.title}
         </Link>
       </h2>

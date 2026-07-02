@@ -20,6 +20,22 @@ export async function getCurrentAdmin() {
   return user;
 }
 
+/**
+ * Lightweight admin check for UI display only (e.g. showing the "Admin" nav
+ * link). Reads the session from the cookie WITHOUT a network round-trip, so it
+ * doesn't slow down every navigation. Real security is enforced by the proxy,
+ * the admin-route gate, and Postgres RLS — never by this.
+ */
+export async function isAdminNav(): Promise<boolean> {
+  if (!isSupabaseConfigured) return false;
+  const supabase = await createClient();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  const email = session?.user?.email?.toLowerCase();
+  return !!email && email === ADMIN_EMAIL;
+}
+
 /** All published posts, newest first — the public journal feed. */
 export async function getPublishedPosts(): Promise<Post[]> {
   if (!isSupabaseConfigured) return [];

@@ -47,7 +47,7 @@ export default async function PostPage({ params }: Params) {
       )}
 
       <header className="mt-4">
-        <h1 className="text-3xl font-bold tracking-tight">{post.title}</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-accent">{post.title}</h1>
         <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-foreground/60">
           <time dateTime={isoDate(post.pub_datetime)}>{formatDate(post.pub_datetime)}</time>
           <span aria-hidden>·</span>

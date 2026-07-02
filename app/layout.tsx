@@ -3,7 +3,7 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ThemeScript } from "@/components/ThemeScript";
-import { getCurrentAdmin } from "@/lib/posts";
+import { isAdminNav } from "@/lib/posts";
 import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const admin = await getCurrentAdmin();
+  const isAdmin = await isAdminNav();
 
   return (
     <html lang={SITE.lang} suppressHydrationWarning>
@@ -37,7 +37,7 @@ export default async function RootLayout({
         <ThemeScript />
       </head>
       <body>
-        <Header isAdmin={!!admin} />
+        <Header isAdmin={isAdmin} />
         <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-8">{children}</main>
         <Footer />
       </body>

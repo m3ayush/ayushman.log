@@ -8,6 +8,7 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // Run on everything except static assets and image optimisation.
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:png|jpg|jpeg|gif|webp|svg|ico)$).*)"],
+  // Only the private admin area needs the auth guard + session refresh. Public
+  // pages skip the proxy entirely, so reading the blog stays fast.
+  matcher: ["/admin/:path*"],
 };

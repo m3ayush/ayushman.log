@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { NAV_LINKS, SITE } from "@/lib/site";
 import { ThemeToggle } from "./ThemeToggle";
