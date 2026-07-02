@@ -1,0 +1,144 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Dark mode driven by data-theme on <html> (set by ThemeScript, no flash). */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+:root,
+html[data-theme="light"] {
+  --background: #fdfdfd;
+  --foreground: #282728;
+  --accent: #006cac;
+  --muted: #e9e9e9;
+  --border: #e4e1e1;
+  --card: #ffffff;
+}
+
+html[data-theme="dark"] {
+  --background: #212737;
+  --foreground: #eaedf3;
+  --accent: #ff7a1a;
+  --muted: #2a3350;
+  --border: #384766;
+  --card: #262d40;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-card: var(--card);
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "Source Code Pro", Menlo,
+    Consolas, monospace;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    scroll-behavior: smooth;
+    color-scheme: light dark;
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-mono);
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+  }
+  body ::selection {
+    background-color: color-mix(in srgb, var(--accent) 75%, transparent);
+    color: var(--background);
+  }
+  a {
+    text-underline-offset: 3px;
+  }
+  :focus-visible {
+    outline: 2px dashed var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+/* Active nav item — wavy underline, AstroPaper style. */
+.active-nav {
+  text-decoration: underline wavy;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+  color: var(--accent);
+}
+
+/* --- Prose (rendered Markdown) uses our theme tokens --- */
+.prose {
+  --tw-prose-body: var(--foreground);
+  --tw-prose-headings: var(--foreground);
+  --tw-prose-links: var(--accent);
+  --tw-prose-bold: var(--foreground);
+  --tw-prose-quotes: var(--foreground);
+  --tw-prose-quote-borders: var(--accent);
+  --tw-prose-code: var(--foreground);
+  --tw-prose-pre-bg: #1b2130;
+  --tw-prose-pre-code: #eaedf3;
+  --tw-prose-hr: var(--border);
+  --tw-prose-th-borders: var(--border);
+  --tw-prose-td-borders: var(--border);
+  --tw-prose-counters: var(--foreground);
+  --tw-prose-bullets: var(--accent);
+}
+.prose a {
+  font-weight: 500;
+}
+.prose :not(pre) > code {
+  background: var(--muted);
+  padding: 0.15em 0.4em;
+  border-radius: 0.3rem;
+  font-weight: 400;
+}
+.prose :not(pre) > code::before,
+.prose :not(pre) > code::after {
+  content: "";
+}
+.prose pre {
+  border: 1px solid var(--border);
+  border-radius: 0.6rem;
+}
+
+/* --- Minimal highlight.js theme (rehype-highlight) --- */
+.hljs-comment,
+.hljs-quote {
+  color: #8a94a7;
+  font-style: italic;
+}
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-built_in,
+.hljs-name {
+  color: #ff9e64;
+}
+.hljs-string,
+.hljs-attr,
+.hljs-template-tag {
+  color: #9ece6a;
+}
+.hljs-number,
+.hljs-literal {
+  color: #e0af68;
+}
+.hljs-title,
+.hljs-section,
+.hljs-function .hljs-title {
+  color: #7aa2f7;
+}
+.hljs-attribute,
+.hljs-variable,
+.hljs-type {
+  color: #7dcfff;
+}
+.hljs-symbol,
+.hljs-meta {
+  color: #bb9af7;
+}
