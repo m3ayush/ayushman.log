@@ -27,7 +27,7 @@ export default async function HomePage() {
           <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">{SITE.title}</h1>
           <p className="mt-2 text-lg text-foreground/70">{SITE.description}</p>
           <div className="mt-3 flex justify-center sm:justify-start">
-            <Socials className="-ml-2" />
+            <Socials className="-ml-1" />
           </div>
         </div>
       </section>

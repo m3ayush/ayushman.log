@@ -32,7 +32,7 @@ export default function AboutPage() {
       </div>
 
       <div className="mt-8">
-        <Socials className="-ml-2" />
+        <Socials className="-ml-1" />
       </div>
     </div>
   );

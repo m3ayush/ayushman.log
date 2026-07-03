@@ -91,7 +91,7 @@ export function Socials({ className = "" }: { className?: string }) {
           aria-label={s.label}
           target={s.href.startsWith("http") ? "_blank" : undefined}
           rel={s.href.startsWith("http") ? "noopener noreferrer" : undefined}
-          className="inline-flex p-2 opacity-90 transition-transform duration-200 hover:rotate-6 hover:scale-110 hover:text-accent hover:opacity-100"
+          className="inline-flex p-1 opacity-90 transition-transform duration-200 hover:rotate-6 hover:scale-110 hover:text-accent hover:opacity-100"
         >
           <Icon name={s.icon} />
         </Link>
