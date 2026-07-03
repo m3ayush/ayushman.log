@@ -18,6 +18,7 @@ create table if not exists public.posts (
   hero_image   text,
   status       text        not null default 'draft'
                  check (status in ('draft', 'published')),
+  is_public    boolean     not null default false,        -- public/private, separate from draft
   pub_datetime timestamptz,                               -- set on first publish
   created_at   timestamptz not null default now(),
   updated_at   timestamptz not null default now()
@@ -45,11 +46,12 @@ create trigger posts_set_updated_at
 -- ── Row Level Security ───────────────────────────────────────────────────────
 alter table public.posts enable row level security;
 
--- Anyone (even logged-out visitors) may READ published posts.
+-- Anyone (even logged-out visitors) may READ entries that are BOTH published
+-- and public. Private or draft entries are invisible to the public.
 drop policy if exists "public read published" on public.posts;
 create policy "public read published"
   on public.posts for select
-  using (status = 'published');
+  using (status = 'published' and is_public = true);
 
 -- The owner (matching email) has full read/write on everything, incl. drafts.
 -- 👇 REPLACE with your own email before running this file.

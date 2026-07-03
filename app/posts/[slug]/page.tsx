@@ -40,9 +40,11 @@ export default async function PostPage({ params }: Params) {
         ← Back to journal
       </Link>
 
-      {post.status === "draft" && (
+      {(post.status === "draft" || !post.is_public) && (
         <p className="mt-4 rounded-md bg-accent/15 px-3 py-2 text-sm font-semibold text-accent">
-          This is a draft — only you can see it.
+          {post.status === "draft"
+            ? "This is a draft — only you can see it."
+            : "This entry is private — only you can see it."}
         </p>
       )}
 

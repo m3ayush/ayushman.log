@@ -16,6 +16,7 @@ export function Editor({ post }: { post?: Post }) {
   const [tags, setTags] = useState(post?.tags.join(", ") ?? "");
   const [heroImage, setHeroImage] = useState(post?.hero_image ?? "");
   const [content, setContent] = useState(post?.content ?? "");
+  const [isPublic, setIsPublic] = useState(post?.is_public ?? false);
   const [tab, setTab] = useState<"write" | "preview">("write");
 
   function onTitleChange(v: string) {
@@ -83,6 +84,33 @@ export function Editor({ post }: { post?: Post }) {
           placeholder="One-line summary"
           className={inputClass}
         />
+      </div>
+
+      {/* Public / Private visibility toggle */}
+      <div>
+        <label className="mb-1 block text-sm font-medium">Visibility</label>
+        <input type="hidden" name="is_public" value={isPublic ? "public" : "private"} />
+        <div className="inline-flex rounded-md border border-border p-0.5 text-sm">
+          <button
+            type="button"
+            onClick={() => setIsPublic(false)}
+            className={`rounded px-3 py-1.5 ${!isPublic ? "bg-accent text-background" : ""}`}
+          >
+            🔒 Private
+          </button>
+          <button
+            type="button"
+            onClick={() => setIsPublic(true)}
+            className={`rounded px-3 py-1.5 ${isPublic ? "bg-accent text-background" : ""}`}
+          >
+            👁 Public
+          </button>
+        </div>
+        <p className="mt-1 text-xs text-foreground/50">
+          {isPublic
+            ? "Visible to everyone on the site once you publish."
+            : "Kept in your admin only — flip the eye later to make it public."}
+        </p>
       </div>
 
       <div>

@@ -33,6 +33,8 @@ export async function savePost(formData: FormData) {
   const heroRaw = ((formData.get("hero_image") as string) || "").trim();
   const hero_image = heroRaw.length > 0 ? heroRaw : null;
   const tags = parseTags((formData.get("tags") as string) || "");
+  // Public/private choice from the editor toggle (defaults to private).
+  const is_public = (formData.get("is_public") as string) === "public";
 
   if (!title) redirect(`/admin/${id ? `edit/${id}` : "new"}?error=title`);
 
@@ -53,14 +55,14 @@ export async function savePost(formData: FormData) {
 
     const { error } = await supabase
       .from("posts")
-      .update({ title, slug, description, content, hero_image, tags, status, pub_datetime })
+      .update({ title, slug, description, content, hero_image, tags, status, is_public, pub_datetime })
       .eq("id", id);
     if (error) redirect(`/admin/edit/${id}?error=${encodeURIComponent(error.message)}`);
   } else {
     const pub_datetime = status === "published" ? new Date().toISOString() : null;
     const { error } = await supabase
       .from("posts")
-      .insert({ title, slug, description, content, hero_image, tags, status, pub_datetime });
+      .insert({ title, slug, description, content, hero_image, tags, status, is_public, pub_datetime });
     if (error) redirect(`/admin/new?error=${encodeURIComponent(error.message)}`);
   }
 
@@ -82,5 +84,33 @@ export async function deletePost(formData: FormData) {
     revalidatePath("/");
     revalidatePath("/tags");
   }
+  redirect("/admin");
+}
+
+/**
+ * Toggle a published entry between public and private (the eye button in the
+ * dashboard). Does NOT touch draft/published status, and keeps the original
+ * publish date, so a re-shown entry appears under the date it was published.
+ */
+export async function toggleVisibility(formData: FormData) {
+  const admin = await getCurrentAdmin();
+  if (!admin) redirect("/login");
+
+  const id = formData.get("id") as string;
+  if (!id) redirect("/admin");
+
+  const supabase = await createClient();
+  const { data: existing } = await supabase
+    .from("posts")
+    .select("is_public, slug")
+    .eq("id", id)
+    .maybeSingle();
+  if (!existing) redirect("/admin");
+
+  await supabase.from("posts").update({ is_public: !existing.is_public }).eq("id", id);
+
+  revalidatePath("/");
+  revalidatePath("/tags");
+  if (existing.slug) revalidatePath(`/posts/${existing.slug}`);
   redirect("/admin");
 }

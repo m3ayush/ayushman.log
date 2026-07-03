@@ -10,6 +10,9 @@ export interface Post {
   tags: string[];
   hero_image: string | null;
   status: PostStatus;
+  /** Public/private visibility, independent of draft/published. Only entries
+   *  that are BOTH published AND public appear on the site. */
+  is_public: boolean;
   pub_datetime: string | null; // ISO string; set when first published
   created_at: string;
   updated_at: string;

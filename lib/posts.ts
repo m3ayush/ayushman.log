@@ -4,7 +4,7 @@ import { ADMIN_EMAIL, isSupabaseConfigured } from "./supabase/config";
 import type { Post } from "./types";
 
 const COLUMNS =
-  "id, title, slug, description, content, tags, hero_image, status, pub_datetime, created_at, updated_at";
+  "id, title, slug, description, content, tags, hero_image, status, is_public, pub_datetime, created_at, updated_at";
 
 /**
  * The signed-in admin user, or null. Authorisation is by email match — only
@@ -44,6 +44,7 @@ export async function getPublishedPosts(): Promise<Post[]> {
     .from("posts")
     .select(COLUMNS)
     .eq("status", "published")
+    .eq("is_public", true)
     .order("pub_datetime", { ascending: false });
   if (error) {
     console.error("getPublishedPosts:", error.message);
