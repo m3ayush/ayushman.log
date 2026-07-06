@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Post } from "@/lib/types";
-import { formatDate, isoDate, readingTime } from "@/lib/utils";
+import { excerpt, formatDate, isoDate, readingTime } from "@/lib/utils";
 
 /** A single entry in the journal feed. */
 export function PostCard({ post }: { post: Post }) {
@@ -23,9 +23,12 @@ export function PostCard({ post }: { post: Post }) {
         )}
       </div>
 
-      {post.description && (
-        <p className="mt-2 text-foreground/80">{post.description}</p>
-      )}
+      {(() => {
+        const preview = post.description?.trim() || excerpt(post.content);
+        return preview ? (
+          <p className="mt-2 line-clamp-2 text-foreground/90">{preview}</p>
+        ) : null;
+      })()}
 
       {post.tags.length > 0 && (
         <div className="mt-3 flex flex-wrap gap-2">

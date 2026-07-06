@@ -16,8 +16,8 @@ html[data-theme="light"] {
 
 html[data-theme="dark"] {
   --background: #212737;
-  --foreground: #eaedf3;
-  --accent: #ff7a1a;
+  --foreground: #f4f6fb;
+  --accent: #ff6a12;
   --muted: #2a3350;
   --border: #ab4b08; /* warm orange rule lines, like steipete.me in dark mode */
   --card: #262d40;
