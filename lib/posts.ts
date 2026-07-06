@@ -87,6 +87,26 @@ export async function getPostById(id: string): Promise<Post | null> {
   return (data as Post) ?? null;
 }
 
+/**
+ * Distinct tag names across ALL of the admin's posts (drafts + private too),
+ * alphabetical. Powers the tag picker in the editor so previously-used tags can
+ * be reselected. Guarded by RLS + the admin route, same as the dashboard.
+ */
+export async function getAllTagNames(): Promise<string[]> {
+  if (!isSupabaseConfigured) return [];
+  const supabase = await createClient();
+  const { data, error } = await supabase.from("posts").select("tags");
+  if (error) {
+    console.error("getAllTagNames:", error.message);
+    return [];
+  }
+  const set = new Set<string>();
+  for (const row of data ?? []) {
+    for (const t of (row.tags as string[] | null) ?? []) set.add(t);
+  }
+  return [...set].sort((a, b) => a.localeCompare(b));
+}
+
 /** Distinct tags across published posts, with counts, alphabetical. */
 export async function getAllTags(): Promise<{ tag: string; count: number }[]> {
   const posts = await getPublishedPosts();

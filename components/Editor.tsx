@@ -8,7 +8,7 @@ import { slugify } from "@/lib/utils";
 import type { Post } from "@/lib/types";
 
 /** Create/edit form with a Markdown editor + live preview. */
-export function Editor({ post }: { post?: Post }) {
+export function Editor({ post, existingTags = [] }: { post?: Post; existingTags?: string[] }) {
   const [title, setTitle] = useState(post?.title ?? "");
   const [slug, setSlug] = useState(post?.slug ?? "");
   const [slugEdited, setSlugEdited] = useState(!!post);
@@ -22,6 +22,20 @@ export function Editor({ post }: { post?: Post }) {
   function onTitleChange(v: string) {
     setTitle(v);
     if (!slugEdited) setSlug(slugify(v));
+  }
+
+  // Tags typed so far, normalised for comparison against the suggestion chips.
+  const selectedTags = tags
+    .split(",")
+    .map((t) => t.trim())
+    .filter(Boolean);
+  const hasTag = (t: string) => selectedTags.some((s) => s.toLowerCase() === t.toLowerCase());
+
+  function toggleTag(t: string) {
+    const next = hasTag(t)
+      ? selectedTags.filter((s) => s.toLowerCase() !== t.toLowerCase())
+      : [...selectedTags, t];
+    setTags(next.join(", "));
   }
 
   const inputClass =
@@ -70,6 +84,29 @@ export function Editor({ post }: { post?: Post }) {
             placeholder="work, learning, ai"
             className={inputClass}
           />
+          {existingTags.length > 0 && (
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {existingTags.map((t) => {
+                const on = hasTag(t);
+                return (
+                  <button
+                    key={t}
+                    type="button"
+                    onClick={() => toggleTag(t)}
+                    aria-pressed={on}
+                    className={`rounded-full border px-2.5 py-0.5 text-xs transition-colors ${
+                      on
+                        ? "border-accent bg-accent text-background"
+                        : "border-border text-foreground/70 hover:border-accent hover:text-accent"
+                    }`}
+                  >
+                    {on ? "✓ " : "#"}
+                    {t}
+                  </button>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
 
