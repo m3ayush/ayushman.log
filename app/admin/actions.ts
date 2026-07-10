@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentAdmin } from "@/lib/posts";
-import { slugify } from "@/lib/utils";
+import { slugify, effectivePublishDate } from "@/lib/utils";
 import type { PostStatus } from "@/lib/types";
 
 function parseTags(raw: string): string[] {
@@ -50,7 +50,7 @@ export async function savePost(formData: FormData) {
 
     const pub_datetime =
       status === "published"
-        ? (existing?.pub_datetime ?? new Date().toISOString())
+        ? (existing?.pub_datetime ?? effectivePublishDate().toISOString())
         : (existing?.pub_datetime ?? null);
 
     const { error } = await supabase
@@ -59,7 +59,7 @@ export async function savePost(formData: FormData) {
       .eq("id", id);
     if (error) redirect(`/admin/edit/${id}?error=${encodeURIComponent(error.message)}`);
   } else {
-    const pub_datetime = status === "published" ? new Date().toISOString() : null;
+    const pub_datetime = status === "published" ? effectivePublishDate().toISOString() : null;
     const { error } = await supabase
       .from("posts")
       .insert({ title, slug, description, content, hero_image, tags, status, is_public, pub_datetime });

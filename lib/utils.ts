@@ -54,3 +54,14 @@ export function formatDate(iso: string | null): string {
 export function isoDate(iso: string | null): string {
   return iso ? new Date(iso).toISOString() : "";
 }
+
+/**
+ * "Now", but the journal day doesn't roll over until 1am — publishing between
+ * midnight and 1am still counts as the previous day, so a late-night entry
+ * isn't stamped with tomorrow's date.
+ */
+export function effectivePublishDate(now = new Date()): Date {
+  const eff = new Date(now);
+  if (eff.getHours() < 1) eff.setDate(eff.getDate() - 1);
+  return eff;
+}
